@@ -55,8 +55,10 @@ public:
     void SketchError(uint32_t section){
         AbsVector PEs = {
                 new OO_PE<DATA_TYPE, COUNT_TYPE>(3, 20000000 / 3.0 / (BITSIZE + sizeof(COUNT_TYPE))),
+                new CM_BF<DATA_TYPE, COUNT_TYPE>(3, 20000000 / 3.0 / (BITSIZE + sizeof(COUNT_TYPE))),
         };
-
+        TP start, finish;
+        start = now();
         BenchInsert(PEs);
 
         for(auto PE : PEs){
@@ -64,19 +66,27 @@ public:
             PECheckError(PE);
             delete PE;
         }
+        finish = now();
+        //std::cout << "PE bench time: " << durationms(finish, start) << std::endl;
     }
 
     void TopKError(double alpha){
         AbsVector FPIs = {
                 new OO_FPI<DATA_TYPE, COUNT_TYPE, 8>(200000),
+                new PIE<DATA_TYPE, COUNT_TYPE>(200000, 3),
+                new SS<DATA_TYPE, COUNT_TYPE>(0.1),
 	    };
 
+        TP start, finish;
+        start = now();
         BenchInsert(FPIs);
 
         for(auto FPI : FPIs){
             FPICheckError(FPI, alpha * TOTAL);
             delete FPI;
         }
+        finish = now();
+        //std::cout << "FPI bench time: " << durationms(finish, start) << std::endl;
     }
 
     void Thp(){
@@ -85,7 +95,10 @@ public:
 
 	        AbsVector FPIs = {
 	                new OO_PE<DATA_TYPE, COUNT_TYPE>(3, 20000000 / 3.0 / (BITSIZE + sizeof(COUNT_TYPE))),
+                    //new CM_BF<DATA_TYPE, COUNT_TYPE>(3, 20000000 / 3.0 / (BITSIZE + sizeof(COUNT_TYPE))),
                     new OO_FPI<DATA_TYPE, COUNT_TYPE, 8>(200000),
+                    //new PIE<DATA_TYPE, COUNT_TYPE>(200000, 3),
+                    //new SS<DATA_TYPE, COUNT_TYPE>(0.1),
 		    };
 
             for(auto FPI : FPIs){

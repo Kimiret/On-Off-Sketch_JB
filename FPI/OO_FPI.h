@@ -38,6 +38,7 @@ public:
     }
 
     ~OO_FPI(){
+        std::cout << "OO_FPI Memory Usage: " << CalculateMemory() << " bytes" << std::endl;
         delete [] buckets;
         delete [] sketch;
         delete bucketBitsets;
@@ -87,6 +88,15 @@ private:
 
     BitSet* sketchBitsets;
     COUNT_TYPE* sketch;
+
+    uint64_t CalculateMemory() const {
+        uint64_t memoryUsage = 0;
+        memoryUsage += length * sizeof(Bucket); // Memory used by buckets
+        memoryUsage += length * sizeof(COUNT_TYPE); // Memory used by sketch
+        memoryUsage += sizeof(bucketBitsets); // Memory used by bucketBitsets
+        memoryUsage += sizeof(sketchBitsets); // Memory used by sketchBitsets
+        return memoryUsage;
+    }
 };
 
 #endif //OO_FPI_H

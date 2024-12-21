@@ -117,6 +117,7 @@ public:
     }
 
     ~PIE(){
+        std::cout << "PIE Memory Usage: " << CalculateMemory() << " bytes" << std::endl;
         for(STBF stbf : stbfs){
             delete [] stbf.cell;
         }
@@ -145,6 +146,14 @@ private:
     const uint32_t hash_num;
 
     std::vector<STBF> stbfs;
+
+    uint64_t CalculateMemory() const {
+        uint64_t totalMemory = 0;
+        for (const STBF& stbf : stbfs) {
+            totalMemory += stbf.length * sizeof(Cell);
+        }
+        return totalMemory;
+    }
 };
 
 #endif //PIE_H

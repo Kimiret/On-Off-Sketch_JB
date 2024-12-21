@@ -24,7 +24,7 @@ public:
     SS(double _EPSILON):EPSILON(_EPSILON){}
 
     ~SS(){
-	std::cout << "Memory: " << ssmap.size() * 5 * (sizeof(PCounter) + sizeof(DATA_TYPE)) << std::endl;
+	    std::cout << "Memory: " << ssmap.size() * 5 * (sizeof(PCounter) + sizeof(DATA_TYPE)) << " bytes" << std::endl;
     }
 
     void Insert(const DATA_TYPE item, const COUNT_TYPE window){

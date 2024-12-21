@@ -66,6 +66,7 @@ public:
     }
 
     ~CM_BF(){
+        std::cout << "CM_BF Memory Usage: " << MemoryUsage() << " bytes" << std::endl;
         for(uint32_t i = 0;i < hash_num;++i){
             delete [] counters[i];
         }
@@ -103,6 +104,16 @@ private:
     const uint32_t length;
 
     COUNT_TYPE** counters;
+
+    size_t MemoryUsage() const {
+        size_t memoryUsage = sizeof(CM_BF);
+        memoryUsage += sizeof(BF) + bf->length / 8; // BF and its BitSet
+        memoryUsage += hash_num * sizeof(COUNT_TYPE *); // pointers to counters
+        for (uint32_t i = 0; i < hash_num; ++i) {
+            memoryUsage += length * sizeof(COUNT_TYPE); // each counter array
+        }
+        return memoryUsage;
+    }
 };
 
 #endif //CM_BF_H

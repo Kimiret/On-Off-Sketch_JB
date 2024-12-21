@@ -24,6 +24,7 @@ public:
     }
 
     ~OO_PE(){
+        std::cout << "OO_PE Memory Usage: " << CalculateMemory() << " bytes" << std::endl;
         for(uint32_t i = 0;i < hash_num;++i){
             delete [] counters[i];
             delete bitsets[i];
@@ -60,6 +61,17 @@ private:
 
     BitSet** bitsets;
     COUNT_TYPE** counters;
+
+    size_t CalculateMemory() const {
+        size_t size = sizeof(*this); // Size of the object itself
+        size += hash_num * sizeof(COUNT_TYPE*); // Size of counters array
+        size += hash_num * sizeof(BitSet*); // Size of bitsets array
+        for(uint32_t i = 0; i < hash_num; ++i){
+            size += length * sizeof(COUNT_TYPE); // Size of each counter array
+            size += sizeof(bitsets[i]); // Size of each bitset
+        }
+        return size;
+    }
 };
 
 #endif //OO_PE_H

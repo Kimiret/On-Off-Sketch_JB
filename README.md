@@ -1,6 +1,5 @@
 On-Off sketch
 ============
-Fork del repositorio original con modificaciones para facilitar mediciones de tiempo y pruebs de multiples algoritmos por ejecucion.
 
 Introduction
 --------
